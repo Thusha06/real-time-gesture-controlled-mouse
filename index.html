@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111118">
+  <meta name="description" content="Nexora — the future at your fingertips. Control your digital world with natural gestures and voice.">
+  <title>Nexora — The Future at Your Fingertips</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#home" aria-label="Nexora home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>NEXORA</span>
+      </a>
+      <div class="nav-caption">YOUR WORKSPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#home"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>Overview</a>
+        <a class="nav-link" href="#controls"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12V6.8a1.7 1.7 0 0 1 3.4 0V11"/><path d="M11.4 10V5.5a1.7 1.7 0 0 1 3.4 0V11"/><path d="M14.8 10V7a1.7 1.7 0 0 1 3.4 0v7.3c0 4.1-2.8 6.7-6.7 6.7h-.7c-2.1 0-3.7-.9-4.7-2.4L3.6 14a1.7 1.7 0 0 1 2.8-1.9L8 14"/></svg>Control modes</a>
+        <a class="nav-link" href="#devices"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8 20h8m-4-3.5V20"/></svg>Connected devices</a>
+        <a class="nav-link" href="#guide"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg>Quick guide</a>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-tip">
+        <span class="tip-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3m0 12v3M3 12h3m12 0h3"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+        <strong>Small movements.<br>Big possibilities.</strong>
+        <span>Made for the way you move.</span>
+      </div>
+      <div class="profile">
+        <span class="avatar">N</span>
+        <span class="profile-copy"><strong>My workspace</strong><span>Personal setup</span></span>
+        <span class="profile-state" aria-label="Local session"></span>
+      </div>
+    </aside>
+
+    <main class="main-content" id="home">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><span class="slash">/</span><strong>Overview</strong></div>
+        <div class="topbar-right">
+          <div class="device-status"><span class="status-light" id="camera-indicator"></span><span>Camera</span><span class="status-light" id="mic-indicator"></span><span>Mic</span></div>
+          <span class="top-divider"></span>
+          <span class="date-label" id="today-label"></span>
+          <span class="top-avatar">N</span>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="welcome" aria-label="Welcome">
+          <div>
+            <div class="eyebrow"><span></span>YOUR SPACE, REIMAGINED</div>
+            <h1>Welcome to <span>Nexora.</span></h1>
+            <p class="tagline">The Future at Your Fingertips</p>
+          </div>
+          <button class="desktop-connect" id="open-setup"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8 20h8m-4-3.5V20"/></svg><span>Set up desktop control</span><span class="arrow">↗</span></button>
+        </section>
+
+        <section class="hero">
+          <div class="hero-text">
+            <span class="hero-eyebrow"><span class="spark">✳</span> THE NEXT MOVE IS YOURS</span>
+            <h2>Leave the mouse.<br><span>Keep the control.</span></h2>
+            <p>Your hands and voice are all you need to move naturally through your digital world.</p>
+            <a class="hero-link" href="#controls">Explore your controls <span>→</span></a>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="hero-orbit orbit-outer"></div><div class="hero-orbit orbit-middle"></div><div class="hero-orbit orbit-inner"></div>
+            <div class="hero-aura"></div>
+            <div class="hero-logo"><span class="brand-mark hero-mark"><i></i><i></i><i></i><i></i></span></div>
+            <div class="float-icon float-hand"><svg viewBox="0 0 24 24"><path d="M8 12V6.8a1.7 1.7 0 0 1 3.4 0V11"/><path d="M11.4 10V5.5a1.7 1.7 0 0 1 3.4 0V11"/><path d="M14.8 10V7a1.7 1.7 0 0 1 3.4 0v7.3c0 4.1-2.8 6.7-6.7 6.7h-.7c-2.1 0-3.7-.9-4.7-2.4L3.6 14a1.7 1.7 0 0 1 2.8-1.9L8 14"/></svg></div>
+            <div class="float-icon float-mic"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11v1a6.5 6.5 0 0 0 13 0v-1M12 18.5V22m-4 0h8"/></svg></div>
+            <div class="hero-caption"><span></span> MADE FOR YOUR MOMENT</div>
+          </div>
+          <span class="hero-index">NX&nbsp; / &nbsp;001</span>
+        </section>
+
+        <section class="controls-section" id="controls">
+          <div class="section-heading">
+            <div><div class="section-eyebrow">CHOOSE YOUR INPUT</div><h2>Control your way</h2></div>
+            <span class="section-helper"><span></span> Connect a device to get started</span>
+          </div>
+          <div class="control-grid">
+            <article class="control-card gesture-card">
+              <div class="card-top"><div class="card-icon gesture-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12V6.8a1.7 1.7 0 0 1 3.4 0V11"/><path d="M11.4 10V5.5a1.7 1.7 0 0 1 3.4 0V11"/><path d="M14.8 10V7a1.7 1.7 0 0 1 3.4 0v7.3c0 4.1-2.8 6.7-6.7 6.7h-.7c-2.1 0-3.7-.9-4.7-2.4L3.6 14a1.7 1.7 0 0 1 2.8-1.9L8 14"/></svg></div><span class="card-index">01 &nbsp;/&nbsp; 02</span></div>
+              <span class="mode-label"><i></i>GESTURE CONTROL</span>
+              <h3>Move with a gesture.</h3>
+              <p>Let your hand lead. Point to move and pinch to click around this page.</p>
+              <div class="card-footer"><button class="action-button gesture-button" id="gesture-toggle"><span class="button-symbol"><svg viewBox="0 0 24 24"><path d="M8 12V6.8a1.7 1.7 0 0 1 3.4 0V11"/><path d="M11.4 10V5.5a1.7 1.7 0 0 1 3.4 0V11"/><path d="M14.8 10V7a1.7 1.7 0 0 1 3.4 0v7.3c0 4.1-2.8 6.7-6.7 6.7h-.7c-2.1 0-3.7-.9-4.7-2.4L3.6 14a1.7 1.7 0 0 1 2.8-1.9L8 14"/></svg></span><span id="gesture-label">Connect webcam</span><span class="arrow">→</span></button><span class="permission-note" id="camera-note">Camera permission needed</span></div>
+              <div class="card-art hand-art" aria-hidden="true"><div class="art-ring ring-one"></div><div class="art-ring ring-two"></div><div class="hand-tile"><svg viewBox="0 0 100 110"><path d="M30 51V26c0-5 8-5 8 0v22-34c0-6 9-6 9 0v34-29c0-6 9-6 9 0v29-22c0-6 9-6 9 0v29l8-8c7-6 13 3 8 9L69 82c-5 7-11 11-21 11h-3c-9 0-15-4-20-12L13 62c-5-8 5-14 11-7z"/></svg></div><span class="art-twinkle">✳</span><span class="art-footnote">POINT TO MOVE &nbsp;·&nbsp; PINCH TO CLICK</span></div>
+            </article>
+            <article class="control-card voice-card">
+              <div class="card-top"><div class="card-icon voice-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11v1a6.5 6.5 0 0 0 13 0v-1M12 18.5V22m-4 0h8"/></svg></div><span class="card-index">02 &nbsp;/&nbsp; 02</span></div>
+              <span class="mode-label voice-mode-label"><i></i>VOICE COMMAND</span>
+              <h3>Say what you need.</h3>
+              <p>Use simple spoken commands to scroll, navigate, and control this page.</p>
+              <div class="card-footer"><button class="action-button voice-button" id="voice-toggle"><span class="button-symbol"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11v1a6.5 6.5 0 0 0 13 0v-1M12 18.5V22m-4 0h8"/></svg></span><span id="voice-label">Connect microphone</span><span class="arrow">→</span></button><span class="permission-note" id="mic-note">Microphone permission needed</span></div>
+              <div class="card-art voice-art" aria-hidden="true"><div class="waveform"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="wave-quote">“Scroll down”</span><span class="voice-art-note">YOUR VOICE, IN CONTROL</span><span class="voice-star">✦</span></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="status-panel" id="devices" aria-live="polite">
+          <div class="status-icon"><svg viewBox="0 0 24 24"><path d="M12 3v3m0 12v3M3 12h3m12 0h3"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+          <div class="status-copy"><strong id="status-title">All yours, when you’re ready.</strong><span id="status-message">Choose gesture or voice control. Your camera and microphone stay off until you connect them.</span></div>
+          <span class="status-badge"><i></i><span id="status-badge-text">STANDING BY</span></span>
+        </section>
+
+        <section class="guide-section" id="guide">
+          <div class="guide-heading"><div><div class="section-eyebrow">A LITTLE ORIENTATION</div><h2>Quick gesture guide</h2></div><span class="desktop-only-tag">WEB CONTROLS</span></div>
+          <div class="guide-grid">
+            <div class="guide-item"><span class="guide-visual pointer-visual">↗</span><div><strong>Point</strong><span>Move the page cursor</span></div></div>
+            <div class="guide-item"><span class="guide-visual pinch-visual">◎</span><div><strong>Pinch</strong><span>Click a page control</span></div></div>
+            <div class="guide-item"><span class="guide-visual voice-visual">⌁</span><div><strong>Say “scroll”</strong><span>Move through the page</span></div></div>
+            <div class="guide-item"><span class="guide-visual nav-visual">⌂</span><div><strong>Say “overview”</strong><span>Jump to the top</span></div></div>
+          </div>
+        </section>
+        <footer class="footer"><span id="copyright-year"></span><span>Designed for more natural access.</span><button id="footer-setup">Desktop companion <span>↗</span></button></footer>
+      </div>
+    </main>
+  </div>
+
+  <div class="web-cursor" id="web-cursor" aria-hidden="true"><span></span></div>
+  <aside class="camera-float" id="camera-float" aria-label="Live camera preview">
+    <video id="tracking-video" autoplay muted playsinline></video>
+    <div class="camera-float-bar"><span><i></i> CAMERA LIVE</span><button id="stop-camera" aria-label="Turn off gesture camera">×</button></div>
+  </aside>
+
+  <div class="overlay" id="setup-overlay" aria-hidden="true">
+    <section class="dialog setup-dialog" role="dialog" aria-modal="true" aria-labelledby="setup-title">
+      <button class="dialog-close" data-close aria-label="Close desktop setup">×</button>
+      <div class="dialog-icon purple-dialog-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8 20h8m-4-3.5V20"/></svg></div>
+      <span class="dialog-kicker">CONTROL BEYOND THE BROWSER</span><h2 id="setup-title">Take Nexora to your desktop.</h2>
+      <p class="dialog-description">This webpage can use your webcam and microphone for browser controls. To move the Windows cursor and control other apps, run your existing desktop companion too.</p>
+      <div class="setup-steps"><div><span>01</span><section><strong>Open this project folder in PowerShell</strong><p>Open a terminal in the folder containing <code>gesture_mouse.py</code>.</p></section></div><div><span>02</span><section><strong>Run the desktop companion</strong><div class="command-line"><code>.\venv\Scripts\python.exe .\gesture_mouse.py</code><button id="copy-command" aria-label="Copy launch command"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div></section></div><div><span>03</span><section><strong>Allow device access</strong><p>Allow the camera and microphone when Windows or your browser prompts. Your desktop companion provides system-wide control.</p></section></div></div>
+      <div class="dialog-actions"><button class="dialog-primary" data-close>Got it</button></div>
+      <p class="privacy-note"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg> Camera tracking runs in your browser. Voice recognition may use your browser’s speech service. Devices activate only when you choose a mode.</p>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <script src="app.js?v=2"></script>
+</body>
+</html>
