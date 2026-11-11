@@ -50,6 +50,8 @@ last_click_time = 0
 pinch_start_time = None
 dragging = False
 right_click_latched = False
+middle_click_latched = False
+double_click_latched = False
 scroll_last_time = 0
 
 # Webcam and MediaPipe
@@ -193,6 +195,18 @@ def open_application(name):
             # Opens Chrome if it is installed and available in PATH.
             subprocess.Popen(["cmd", "/c", "start", "", "chrome"])
 
+        elif name == "edge":
+            subprocess.Popen(["cmd", "/c", "start", "", "msedge"])
+
+        elif name == "file explorer":
+            subprocess.Popen(["explorer.exe"])
+
+        elif name == "paint":
+            subprocess.Popen(["mspaint.exe"])
+
+        elif name == "settings":
+            os.startfile("ms-settings:")
+
         elif name == "google":
             webbrowser.open("https://www.google.com")
 
@@ -221,6 +235,11 @@ def voice_mouse_action(command):
     """Return True if the command was handled here."""
     global mouse_enabled
 
+    if command.startswith("move the mouse "):
+        command = "move mouse " + command[len("move the mouse "):]
+    elif command.startswith("move the cursor "):
+        command = "move cursor " + command[len("move the cursor "):]
+
     # Voice-only mode avoids the hand tracker overriding
     # cursor movements requested by voice.
     if command in ("voice mouse mode", "enable voice mouse"):
@@ -239,6 +258,10 @@ def voice_mouse_action(command):
         "move mouse right": (100, 0),
         "move mouse up": (0, -100),
         "move mouse down": (0, 100),
+        "move mouse up left": (-100, -100),
+        "move mouse up right": (100, -100),
+        "move mouse down left": (-100, 100),
+        "move mouse down right": (100, 100),
         "move cursor left": (-100, 0),
         "move cursor right": (100, 0),
         "move cursor up": (0, -100),
@@ -250,6 +273,12 @@ def voice_mouse_action(command):
         dx, dy = movements[command]
         pyautogui.moveRel(dx, dy, duration=0.2)
         speak("Moved.")
+        return True
+
+    if command in ("move mouse to center", "center mouse", "center cursor"):
+        mouse_enabled = False
+        pyautogui.moveTo(SCREEN_W // 2, SCREEN_H // 2, duration=0.2)
+        speak("Mouse centered.")
         return True
 
     if command in ("left click", "click", "single click"):
@@ -267,6 +296,26 @@ def voice_mouse_action(command):
         speak("Right click.")
         return True
 
+    if command in ("triple click", "triple-click"):
+        pyautogui.click(clicks=3, interval=0.1)
+        speak("Triple click.")
+        return True
+
+    if command in ("middle click", "middle-click"):
+        pyautogui.click(button="middle")
+        speak("Middle click.")
+        return True
+
+    if command in ("scroll left", "horizontal scroll left"):
+        pyautogui.hscroll(-5)
+        speak("Scrolling left.")
+        return True
+
+    if command in ("scroll right", "horizontal scroll right"):
+        pyautogui.hscroll(5)
+        speak("Scrolling right.")
+        return True
+
     if command in ("scroll up", "page up"):
         pyautogui.scroll(5)
         speak("Scrolling up.")
@@ -277,12 +326,22 @@ def voice_mouse_action(command):
         speak("Scrolling down.")
         return True
 
-    if command in ("drag start", "start dragging", "hold mouse"):
+    if command in ("scroll to top", "go to top"):
+        pyautogui.hotkey("ctrl", "home")
+        speak("Moved to the top.")
+        return True
+
+    if command in ("scroll to bottom", "go to bottom"):
+        pyautogui.hotkey("ctrl", "end")
+        speak("Moved to the bottom.")
+        return True
+
+    if command in ("drag start", "start dragging", "hold mouse", "click and hold"):
         pyautogui.mouseDown(button="left")
         speak("Dragging started.")
         return True
 
-    if command in ("drag stop", "stop dragging", "release mouse"):
+    if command in ("drag stop", "stop dragging", "release mouse", "release click"):
         pyautogui.mouseUp(button="left")
         speak("Mouse released.")
         return True
@@ -318,7 +377,8 @@ def process_voice_command(command):
     if command in ("help", "voice commands", "what can you do"):
         speak(
             "You can move the mouse, click, double click, right click, "
-            "scroll, drag, open applications, close windows, search the web, "
+            "triple click, center the cursor, scroll in any direction, drag, "
+            "open applications, close windows, search the web, "
             "take screenshots, and pause or resume gesture control."
         )
         print("""
@@ -329,11 +389,18 @@ Mouse:
   Move mouse right
   Move mouse up
   Move mouse down
+  Move mouse to center
   Left click
   Double click
   Right click
+  Middle click
+  Triple click
   Scroll up
   Scroll down
+  Scroll left
+  Scroll right
+  Scroll to top
+  Scroll to bottom
   Drag start
   Drag stop
 
@@ -347,6 +414,10 @@ Applications:
   Open Notepad
   Open Calculator
   Open Chrome
+  Open Edge
+  Open File Explorer
+  Open Paint
+  Open Settings
   Open Google
   Open YouTube
   Open Gmail
@@ -385,8 +456,15 @@ Other:
     # Open applications
     if command.startswith("open "):
         target = command[5:].strip()
+        target = {
+            "explorer": "file explorer",
+            "file manager": "file explorer",
+            "windows settings": "settings",
+            "ms paint": "paint",
+        }.get(target, target)
 
         if target in ("notepad", "calculator", "chrome", "google",
+                      "edge", "file explorer", "paint", "settings",
                       "youtube", "gmail"):
             open_application(target)
         elif target in ("browser", "internet", "web browser"):
@@ -408,7 +486,8 @@ Other:
         return
 
     # Close a named application window
-    for app_name in ("notepad", "chrome", "calculator"):
+    for app_name in ("notepad", "chrome", "calculator", "edge",
+                     "file explorer", "paint"):
         if command in (
             "close " + app_name,
             "close " + app_name + " window"
@@ -484,7 +563,8 @@ def landmark_distance(point_a, point_b):
 def process_hand_gesture(hand_landmarks):
     global prev_x, prev_y
     global last_click_time, pinch_start_time
-    global dragging, right_click_latched, scroll_last_time
+    global dragging, right_click_latched, middle_click_latched
+    global double_click_latched, scroll_last_time
 
     landmarks = hand_landmarks.landmark
 
@@ -493,7 +573,6 @@ def process_hand_gesture(hand_landmarks):
     middle_tip = landmarks[12]
     ring_tip = landmarks[16]
     pinky_tip = landmarks[20]
-
     # Move cursor using the index finger.
     target_x = int(index_tip.x * SCREEN_W)
     target_y = int(index_tip.y * SCREEN_H)
@@ -510,11 +589,34 @@ def process_hand_gesture(hand_landmarks):
 
     prev_x, prev_y = smooth_x, smooth_y
 
-    # Thumb and index finger pinch: click or drag.
     thumb_index_distance = landmark_distance(thumb_tip, index_tip)
+    thumb_middle_distance = landmark_distance(thumb_tip, middle_tip)
+    thumb_ring_distance = landmark_distance(thumb_tip, ring_tip)
+    thumb_pinky_distance = landmark_distance(thumb_tip, pinky_tip)
+    secondary_pinch = min(
+        thumb_middle_distance,
+        thumb_ring_distance,
+        thumb_pinky_distance,
+    ) < PINCH_THRESHOLD
+    right_pinch = (
+        thumb_middle_distance < PINCH_THRESHOLD
+        and thumb_ring_distance >= PINCH_THRESHOLD
+        and thumb_pinky_distance >= PINCH_THRESHOLD
+    )
+    middle_pinch = (
+        thumb_ring_distance < PINCH_THRESHOLD
+        and thumb_middle_distance >= PINCH_THRESHOLD
+        and thumb_pinky_distance >= PINCH_THRESHOLD
+    )
+    double_click_pinch = (
+        thumb_pinky_distance < PINCH_THRESHOLD
+        and thumb_middle_distance >= PINCH_THRESHOLD
+        and thumb_ring_distance >= PINCH_THRESHOLD
+    )
     now = time.time()
 
-    if thumb_index_distance < PINCH_THRESHOLD:
+    # Thumb and index pinch: click or drag.
+    if thumb_index_distance < PINCH_THRESHOLD and not secondary_pinch:
         if pinch_start_time is None:
             pinch_start_time = now
 
@@ -537,6 +639,7 @@ def process_hand_gesture(hand_landmarks):
 
         elif (
             pinch_start_time is not None
+            and not secondary_pinch
             and now - pinch_start_time < DRAG_HOLD_SECONDS
             and now - last_click_time > CLICK_COOLDOWN
             and mouse_enabled
@@ -547,17 +650,28 @@ def process_hand_gesture(hand_landmarks):
         pinch_start_time = None
 
     # Thumb and middle finger pinch: right click.
-    thumb_middle_distance = landmark_distance(thumb_tip, middle_tip)
-
-    if thumb_middle_distance < PINCH_THRESHOLD:
+    if right_pinch:
         if not right_click_latched and mouse_enabled:
             pyautogui.click(button="right")
             right_click_latched = True
     else:
         right_click_latched = False
 
-    # Index + middle raised, ring + pinky folded: scroll up.
-    # Ring + pinky raised, index + middle folded: scroll down.
+    if middle_pinch:
+        if not middle_click_latched and mouse_enabled:
+            pyautogui.click(button="middle")
+            middle_click_latched = True
+    else:
+        middle_click_latched = False
+
+    if double_click_pinch:
+        if not double_click_latched and mouse_enabled:
+            pyautogui.doubleClick()
+            double_click_latched = True
+    else:
+        double_click_latched = False
+
+    # Peace sign scrolls up; an open palm scrolls down.
     index_up = landmarks[8].y < landmarks[6].y
     middle_up = landmarks[12].y < landmarks[10].y
     ring_up = landmarks[16].y < landmarks[14].y
@@ -568,7 +682,7 @@ def process_hand_gesture(hand_landmarks):
             pyautogui.scroll(2)
             scroll_last_time = now
 
-        elif ring_up and pinky_up and not index_up and not middle_up:
+        elif index_up and middle_up and ring_up and pinky_up:
             pyautogui.scroll(-2)
             scroll_last_time = now
 

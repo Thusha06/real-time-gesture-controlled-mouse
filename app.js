@@ -111,6 +111,33 @@ function findClickableElement(x, y) {
   return element.closest("button:not(:disabled), a[href], [role='button'], input:not(:disabled), select:not(:disabled), textarea:not(:disabled)");
 }
 
+function moveWebCursor(direction) {
+  const movements = {
+    left: [-100, 0],
+    right: [100, 0],
+    up: [0, -100],
+    down: [0, 100],
+    "up left": [-100, -100],
+    "up right": [100, -100],
+    "down left": [-100, 100],
+    "down right": [100, 100],
+  };
+  if (direction === "center") {
+    cursor.style.left = `${window.innerWidth / 2}px`;
+    cursor.style.top = `${window.innerHeight / 2}px`;
+    cursor.classList.add("visible");
+    return;
+  }
+  const [dx, dy] = movements[direction];
+  const currentX = Number.parseFloat(cursor.style.left);
+  const currentY = Number.parseFloat(cursor.style.top);
+  const x = Number.isFinite(currentX) ? currentX : window.innerWidth / 2;
+  const y = Number.isFinite(currentY) ? currentY : window.innerHeight / 2;
+  cursor.style.left = `${Math.max(8, Math.min(window.innerWidth - 8, x + dx))}px`;
+  cursor.style.top = `${Math.max(8, Math.min(window.innerHeight - 8, y + dy))}px`;
+  cursor.classList.add("visible");
+}
+
 function handleHandResults(results) {
   if (!trackingActive) return;
   const landmarks = results.multiHandLandmarks?.[0];
@@ -149,7 +176,7 @@ function handleHandResults(results) {
     if (indexUp && middleUp && !ringUp && !pinkyUp) {
       window.scrollBy({ top: -160, behavior: "smooth" });
       lastScrollTime = now;
-    } else if (ringUp && pinkyUp && !indexUp && !middleUp) {
+    } else if (indexUp && middleUp && ringUp && pinkyUp) {
       window.scrollBy({ top: 160, behavior: "smooth" });
       lastScrollTime = now;
     }
@@ -218,7 +245,7 @@ async function startGestureControl() {
     gestureButton.disabled = false;
     document.body.classList.add("gesture-mode-active");
     requestAnimationFrame(trackHandFrame);
-    setActivity("Gesture control is on", "Point with your index finger to move the page cursor. Pinch to click. Raise index and middle to scroll up; ring and pinky to scroll down.", true);
+    setActivity("Gesture control is on", "Point to move, pinch to click, show a peace sign to scroll up, or open your palm to scroll down.", true);
   } catch (error) {
     stopGestureControl();
     const message = error.name === "NotAllowedError"
@@ -248,6 +275,14 @@ document.querySelector("#stop-camera").addEventListener("click", () => {
 
 function recognizeBrowserCommand(transcript) {
   const command = transcript.toLowerCase().replace(/[.!?]/g, "").trim();
+  if (/\b(scroll to bottom|go to bottom|bottom of page)\b/.test(command)) {
+    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+    return "Moved to the bottom of the Nexora page.";
+  }
+  if (/\b(scroll to top|go to (?:the )?top|overview|go home|back to top)\b/.test(command)) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return "Returned to the Nexora overview.";
+  }
   if (/\b(scroll down|page down)\b/.test(command)) {
     window.scrollBy({ top: Math.round(window.innerHeight * 0.7), behavior: "smooth" });
     return "Scrolled down the Nexora page.";
@@ -256,32 +291,57 @@ function recognizeBrowserCommand(transcript) {
     window.scrollBy({ top: -Math.round(window.innerHeight * 0.7), behavior: "smooth" });
     return "Scrolled up the Nexora page.";
   }
-  if (/\b(overview|go home|go to the top|back to top)\b/.test(command)) {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return "Returned to the Nexora overview.";
-  }
-  if (/\b(open gestures|gesture control|gestures)\b/.test(command)) {
+  if (/\b(open gestures|gesture control|gestures|show controls|control modes)\b/.test(command)) {
     document.querySelector("#controls").scrollIntoView({ behavior: "smooth" });
     return "Showing the Nexora control modes.";
   }
-  if (/\b(help|setup|desktop)\b/.test(command)) {
+  if (/\b(show devices|connected devices|device status)\b/.test(command)) {
+    document.querySelector("#devices").scrollIntoView({ behavior: "smooth" });
+    return "Showing device status.";
+  }
+  if (/\b(show guide|quick guide|help)\b/.test(command)) {
+    document.querySelector("#guide").scrollIntoView({ behavior: "smooth" });
+    return "Showing the quick guide.";
+  }
+  if (/\b(setup|desktop)\b/.test(command)) {
     openSetup();
     return "Opened desktop setup instructions.";
+  }
+  const cursorMovement = command.match(/\bmove (?:the )?(?:web )?(?:mouse|cursor) (left|right|up|down)(?: (left|right))?\b/);
+  if (cursorMovement) {
+    const direction = [cursorMovement[1], cursorMovement[2]].filter(Boolean).join(" ");
+    moveWebCursor(direction);
+    return `Moved the page cursor ${direction}. Say “click” to activate a page control.`;
+  }
+  if (/\b(center (?:the )?(?:web )?(?:mouse|cursor)|move cursor to center)\b/.test(command)) {
+    moveWebCursor("center");
+    return "Centered the page cursor.";
   }
   if (/\b(stop listening|stop voice)\b/.test(command)) {
     stopListening();
     return "Voice control stopped.";
   }
+  if (/\b(double click|double-click|triple click|triple-click|right click|right-click|middle click|middle-click)\b/.test(command)) {
+    return "That mouse action is available in the desktop companion. Browser voice control can click page controls.";
+  }
+  if (/\b(drag start|start dragging|hold mouse|drag stop|stop dragging|release mouse)\b/.test(command)) {
+    return "Dragging is available in the desktop companion.";
+  }
   if (/\b(click|left click)\b/.test(command)) {
-    if (!trackingActive) return "For voice clicks, first enable gesture control. Desktop clicks need the companion.";
+    if (!cursor.classList.contains("visible")) {
+      return "Say “move cursor left” or another direction first. Desktop clicks need the companion.";
+    }
     const target = findClickableElement(Number.parseFloat(cursor.style.left), Number.parseFloat(cursor.style.top));
     if (target) {
       target.click();
-      return "Clicked the page control under the gesture cursor.";
+      return "Clicked the page control under the cursor.";
     }
-    return "No page control is under the gesture cursor.";
+    return "No page control is under the cursor.";
   }
-  return "Try “scroll down”, “scroll up”, “overview”, or “help”.";
+  if (/^open (notepad|calculator|chrome|edge|file explorer|paint|settings|google|youtube|gmail)$/.test(command)) {
+    return "Opening desktop apps is available in the desktop companion. Say this command there.";
+  }
+  return "Try “scroll down”, “show guide”, “move cursor up left”, or “click”.";
 }
 
 function stopListening() {
@@ -324,7 +384,7 @@ async function startListening() {
       listening = true;
       setMicStatus(true);
       voiceButton.setAttribute("aria-pressed", "true");
-      setActivity("Listening for a voice command", "Say “scroll down”, “scroll up”, “overview”, or “help”. Commands control this page.", true);
+      setActivity("Listening for a voice command", "Try “scroll down”, “show guide”, “move cursor right”, or “click”. Browser voice commands control this page.", true);
     };
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript.trim();

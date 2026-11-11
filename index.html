@@ -9,9 +9,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
+  <a class="skip-link" href="#home">Skip to main content</a>
   <div class="app-shell">
     <aside class="sidebar">
       <a class="brand" href="#home" aria-label="Nexora home">
@@ -87,16 +88,16 @@
               <div class="card-top"><div class="card-icon gesture-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12V6.8a1.7 1.7 0 0 1 3.4 0V11"/><path d="M11.4 10V5.5a1.7 1.7 0 0 1 3.4 0V11"/><path d="M14.8 10V7a1.7 1.7 0 0 1 3.4 0v7.3c0 4.1-2.8 6.7-6.7 6.7h-.7c-2.1 0-3.7-.9-4.7-2.4L3.6 14a1.7 1.7 0 0 1 2.8-1.9L8 14"/></svg></div><span class="card-index">01 &nbsp;/&nbsp; 02</span></div>
               <span class="mode-label"><i></i>GESTURE CONTROL</span>
               <h3>Move with a gesture.</h3>
-              <p>Let your hand lead. Point to move and pinch to click around this page.</p>
-              <div class="card-footer"><button class="action-button gesture-button" id="gesture-toggle"><span class="button-symbol"><svg viewBox="0 0 24 24"><path d="M8 12V6.8a1.7 1.7 0 0 1 3.4 0V11"/><path d="M11.4 10V5.5a1.7 1.7 0 0 1 3.4 0V11"/><path d="M14.8 10V7a1.7 1.7 0 0 1 3.4 0v7.3c0 4.1-2.8 6.7-6.7 6.7h-.7c-2.1 0-3.7-.9-4.7-2.4L3.6 14a1.7 1.7 0 0 1 2.8-1.9L8 14"/></svg></span><span id="gesture-label">Connect webcam</span><span class="arrow">→</span></button><span class="permission-note" id="camera-note">Camera permission needed</span></div>
+              <p>Point and pinch to click. Use a peace sign to scroll up or an open palm to scroll down.</p>
+              <div class="card-footer"><button class="action-button gesture-button" id="gesture-toggle" aria-pressed="false"><span class="button-symbol"><svg viewBox="0 0 24 24"><path d="M8 12V6.8a1.7 1.7 0 0 1 3.4 0V11"/><path d="M11.4 10V5.5a1.7 1.7 0 0 1 3.4 0V11"/><path d="M14.8 10V7a1.7 1.7 0 0 1 3.4 0v7.3c0 4.1-2.8 6.7-6.7 6.7h-.7c-2.1 0-3.7-.9-4.7-2.4L3.6 14a1.7 1.7 0 0 1 2.8-1.9L8 14"/></svg></span><span id="gesture-label">Connect webcam</span><span class="arrow">→</span></button><span class="permission-note" id="camera-note">Camera permission needed</span></div>
               <div class="card-art hand-art" aria-hidden="true"><div class="art-ring ring-one"></div><div class="art-ring ring-two"></div><div class="hand-tile"><svg viewBox="0 0 100 110"><path d="M30 51V26c0-5 8-5 8 0v22-34c0-6 9-6 9 0v34-29c0-6 9-6 9 0v29-22c0-6 9-6 9 0v29l8-8c7-6 13 3 8 9L69 82c-5 7-11 11-21 11h-3c-9 0-15-4-20-12L13 62c-5-8 5-14 11-7z"/></svg></div><span class="art-twinkle">✳</span><span class="art-footnote">POINT TO MOVE &nbsp;·&nbsp; PINCH TO CLICK</span></div>
             </article>
             <article class="control-card voice-card">
               <div class="card-top"><div class="card-icon voice-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11v1a6.5 6.5 0 0 0 13 0v-1M12 18.5V22m-4 0h8"/></svg></div><span class="card-index">02 &nbsp;/&nbsp; 02</span></div>
               <span class="mode-label voice-mode-label"><i></i>VOICE COMMAND</span>
               <h3>Say what you need.</h3>
-              <p>Use simple spoken commands to scroll, navigate, and control this page.</p>
-              <div class="card-footer"><button class="action-button voice-button" id="voice-toggle"><span class="button-symbol"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11v1a6.5 6.5 0 0 0 13 0v-1M12 18.5V22m-4 0h8"/></svg></span><span id="voice-label">Connect microphone</span><span class="arrow">→</span></button><span class="permission-note" id="mic-note">Microphone permission needed</span></div>
+              <p>Scroll and navigate by voice, move the page cursor, then say “click” on a control.</p>
+              <div class="card-footer"><button class="action-button voice-button" id="voice-toggle" aria-pressed="false"><span class="button-symbol"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11v1a6.5 6.5 0 0 0 13 0v-1M12 18.5V22m-4 0h8"/></svg></span><span id="voice-label">Connect microphone</span><span class="arrow">→</span></button><span class="permission-note" id="mic-note">Microphone permission needed</span></div>
               <div class="card-art voice-art" aria-hidden="true"><div class="waveform"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="wave-quote">“Scroll down”</span><span class="voice-art-note">YOUR VOICE, IN CONTROL</span><span class="voice-star">✦</span></div>
             </article>
           </div>
@@ -109,13 +110,24 @@
         </section>
 
         <section class="guide-section" id="guide">
-          <div class="guide-heading"><div><div class="section-eyebrow">A LITTLE ORIENTATION</div><h2>Quick gesture guide</h2></div><span class="desktop-only-tag">WEB CONTROLS</span></div>
+          <div class="guide-heading"><div><div class="section-eyebrow">A LITTLE ORIENTATION</div><h2>Gesture & voice guide</h2></div><span class="desktop-only-tag">WEB CONTROLS</span></div>
           <div class="guide-grid">
             <div class="guide-item"><span class="guide-visual pointer-visual">↗</span><div><strong>Point</strong><span>Move the page cursor</span></div></div>
             <div class="guide-item"><span class="guide-visual pinch-visual">◎</span><div><strong>Pinch</strong><span>Click a page control</span></div></div>
-            <div class="guide-item"><span class="guide-visual voice-visual">⌁</span><div><strong>Say “scroll”</strong><span>Move through the page</span></div></div>
-            <div class="guide-item"><span class="guide-visual nav-visual">⌂</span><div><strong>Say “overview”</strong><span>Jump to the top</span></div></div>
+            <div class="guide-item"><span class="guide-visual pinch-visual">✌</span><div><strong>Peace sign</strong><span>Scroll up</span></div></div>
+            <div class="guide-item"><span class="guide-visual voice-visual">✋</span><div><strong>Open palm</strong><span>Scroll down</span></div></div>
+            <div class="guide-item"><span class="guide-visual voice-visual">⌁</span><div><strong>Say “move cursor right”</strong><span>Position the web cursor</span></div></div>
+            <div class="guide-item"><span class="guide-visual nav-visual">⌂</span><div><strong>Say “show guide”</strong><span>Jump to this section</span></div></div>
           </div>
+        </section>
+        <section class="desktop-command-panel" aria-labelledby="desktop-commands-title">
+          <div class="desktop-command-heading"><div><div class="section-eyebrow">SYSTEM-WIDE CONTROL</div><h2 id="desktop-commands-title">Desktop voice commands</h2></div><span class="desktop-only-tag">COMPANION REQUIRED</span></div>
+          <div class="desktop-command-grid">
+            <div class="desktop-command-group"><strong>Mouse controls</strong><p>“Move mouse left / right / up / down / diagonally” · “Move mouse to center” · “Left click” · “Double click” · “Triple click” · “Right click” · “Middle click” · “Scroll up / down / left / right” · “Drag start / stop”</p></div>
+            <div class="desktop-command-group"><strong>Open an app or site</strong><p>“Open Notepad” · “Open Calculator” · “Open Chrome / Edge” · “Open File Explorer” · “Open Paint” · “Open Settings” · “Open Google / YouTube / Gmail”</p></div>
+          </div>
+          <p class="desktop-gesture-note"><strong>Companion gestures:</strong> Thumb + index pinch to click (hold to drag) · thumb + middle pinch to right-click · thumb + ring pinch to middle-click · thumb + pinky pinch to double-click · peace sign to scroll up · open palm to scroll down.</p>
+          <p class="desktop-command-note">Run the Windows desktop companion and allow microphone access to use these commands. App launches are limited to the listed applications.</p>
         </section>
         <footer class="footer"><span id="copyright-year"></span><span>Designed for more natural access.</span><button id="footer-setup">Desktop companion <span>↗</span></button></footer>
       </div>
@@ -141,6 +153,6 @@
   </div>
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
-  <script src="app.js?v=2"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
